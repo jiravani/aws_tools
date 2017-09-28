@@ -6,8 +6,9 @@ region = 'us-east-1'
 credentials_file = "/var/lib/jenkins/.aws/credentials"
 dir = '/var/lib/jenkins/.aws'
 
-credentials = requests.get('http://169.254.169.254/latest/meta-data/iam/security-credentials/jenkins-role')
-obj = credentials.json()
+current_role    = requests.get('http://169.254.169.254/latest/meta-data/iam/security-credentials/').text
+credentials     = requests.get('http://169.254.169.254/latest/meta-data/iam/security-credentials/%s' % (current_role))
+obj 		= credentials.json()
 
 access_key_id     = obj["AccessKeyId"]
 token             = obj["Token"]
